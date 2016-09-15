@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<HTML>
+<HEAD>
+	
+	<SCRIPT type="text/javascript">
+	
+		var menuTimeout = 500;  /* Set how long until menu disappears after mouseout (1000 = 1 sec) */
+		var closeTimer = 0;
+		var closeSubTimer = 0;
+		var menuItem = 0;
+		var subMenuItem = 0;
+		
+		function openMenu(mid) {
+			cancelCloseMenu();
+			if(menuItem) menuItem.style.display = 'none';
+			menuItem = mid;
+			mid.style.display = 'block';
+		}
+		
+		function openSubMenu(mid) {
+			cancelCloseSubMenu();
+			if(subMenuItem) subMenuItem.style.display = 'none';
+			subMenuItem = mid;
+			mid.style.display = 'block';
+		}
+		
+		function closeMenu() {
+			if(menuItem) menuItem.style.display = 'none';
+		}
+		
+		function closeSubMenu() {
+			if(subMenuItem) subMenuItem.style.display = 'none';
+		}
+		
+		function closeMenuDelay() {
+			closeTimer = setTimeout(closeMenu, menuTimeout);
+		}
+
+		function closeSubMenuDelay() {
+			closeSubTimer = setTimeout(closeSubMenu, menuTimeout);
+		}
+		
+		function cancelCloseMenu() {
+			if(closeTimer) {
+				clearTimeout(closeTimer);
+				closeTimer = null;
+			}
+		}
+
+		function cancelCloseSubMenu() {
+			if(closeSubTimer) {
+				clearTimeout(closeSubTimer);
+				closeSubTimer = null;
+			}
+		}
+		
+		/* Hide menus when clicking on page */
+		document.onclick = closeMenu;
+		
+	</SCRIPT>
+	
+	<STYLE>
+		* {
+			font-family:Arial;
+		}
+		
+		ul.dropdown {
+			margin:0;
+			padding:0;
+			position:relative;
+		}
+		ul.dropdown a {             /* Formatting for top level of menu */
+			background-color:#CCC;
+			border:1px solid #999;
+			font-weight:bold;
+			font-size:10.5pt;
+			margin:0;
+			padding:5px;			
+			text-decoration:none;
+		}
+		ul.dropdown a:hover {       /* Top level hover over */
+			background-color:white;
+			color:#C00;
+		}
+		ul.dropdown li {
+			display:inline-block;
+		}
+		
+		ul.dropdown ul {            /* Styles for secondary drop down menu */
+			background-color:white;
+			border:1px solid #BBB;
+            box-shadow:2px 2px 2px rgba(0,0,0,0.25);
+			display:none;
+			margin:5px 0 0 0;
+			min-width:100px;
+			padding:6px;
+			position:absolute; 
+			z-index:1;
+		}
+		ul.dropdown ul li {
+			display:block;
+			margin:0;
+			padding:1px;
+			position:relative;
+		}
+		ul.dropdown ul li a {
+			background:none;
+			border:none;
+			display:block;
+			font-weight:normal;
+			font-size:9pt;
+			margin:1px;
+			padding:2px;
+		}
+		ul.dropdown ul li a:hover {
+			background-color:#EEE;
+			border:1px solid #AAA;		
+			margin:0;
+		}
+		ul.dropdown ul ul {
+			margin-left:90px;
+			margin-top:-26px;
+			z-index:2;
+		}
+				
+	</STYLE>	
+	
+</HEAD>
+
+<BODY>
+
+<H2>JavaScript Dropdown Menu Example</H2>
+
+<P>This is an example of how to create drop down menus on a mouseover using JavaScript.</P>
+
+<UL class="dropdown">
+	<LI><A href="javascript:void(0);" onmouseover="openMenu(mnuFile)" onmouseout="closeMenuDelay()">File</A>
+		<UL id="mnuFile" onmouseover="cancelCloseMenu()" onmouseout="closeMenuDelay()">
+			<LI><A href="#">New</A></LI>
+			<LI><A href="#">Open</A></LI>
+			<LI><A href="#">Save</A></LI>
+			<LI><A href="#">Save As...</A></LI>
+			<LI><A href="#">Close</A></LI>
+		</UL>
+	</LI>
+	<LI><A href="javascript:void(0);" onmouseover="openMenu(mnuEdit)" onmouseout="closeMenuDelay()">Edit</A>
+		<UL id="mnuEdit" onmouseover="cancelCloseMenu()" onmouseout="closeMenuDelay()">
+			<LI><A href="#">Cut</A></LI>
+			<LI><A href="#">Copy</A></LI>
+			<LI><A href="javascript:void(0);" onmouseover="openSubMenu(mnuEditPaste)" onmouseout="closeSubMenuDelay()">Paste &gt;</A>
+				<UL id="mnuEditPaste" onmouseover="cancelCloseSubMenu()" onmouseout="closeSubMenuDelay()">
+					<LI><A href="#">Paste All</A></LI>
+					<LI><A href="#">Paste Text Only</A></LI>
+					<LI><A href="#">Paste Formats</A></LI>
+				</UL>
+			</LI>
+		</UL>
+	</LI>
+
+</BODY>
+
+</HTML>
